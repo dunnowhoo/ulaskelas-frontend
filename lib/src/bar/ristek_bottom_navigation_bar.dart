@@ -30,7 +30,7 @@ class _NewRistekBotNavBarState extends State<NewRistekBotNavBar> {
     navbarController = widget.onTap;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(7, 12, 7, 0),
+      padding: const EdgeInsets.fromLTRB(7, 12, 7, 20),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         boxShadow: BoxShadowDecorator().defaultShadow(context),
