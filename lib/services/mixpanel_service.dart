@@ -18,12 +18,12 @@ class MixpanelService {
     );
   }
 
-  static void track(String eventName, {Map<String, String>? params}) {
-    _mixpanel!.track(eventName, properties: params);
+  static void track(AppAnalyticsEvent event) {
+    _mixpanel!.track(event.eventName, properties: event.toMap());
     Logger().i(
       '''
-      Track Events: $eventName,
-      Parameters: $params
+      Track Events: ${event.eventName},
+      Parameters: ${event.toMap()}
       '''
     );
   }

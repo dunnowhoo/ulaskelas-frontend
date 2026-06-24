@@ -14,6 +14,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ulaskelas/core/_core.dart';
 import 'package:ulaskelas/core/environment/secrets.dart';
 
+import 'app_analytics_event.dart';
+
+export 'app_analytics_event.dart';
+
 part 'date_service.dart';
 part 'delay_service.dart';
 part 'duration_service.dart';
