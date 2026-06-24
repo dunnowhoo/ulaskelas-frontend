@@ -29,7 +29,7 @@ class _AppWrapperState extends State<AppWrapper> {
   @override
   void initState() {
     super.initState();
-    MixpanelService.track(LegacyEvent('open_app'));
+    MixpanelService.track(AppSessionStartedEvent(launchType: 'cold'));
     splashTime();
   }
 
