@@ -78,7 +78,9 @@ class NavigationServiceState implements Navigation {
   }
 
   Future<bool?> goToFilterPage() {
-    MixpanelService.track(LegacyEvent('open_course_filter'));
+    // tracking has moved into filter_page.dart
+    // tracking it here does not provide enough context
+    // MixpanelService.track(LegacyEvent('open_course_filter'));
     return nav.push<bool>(
       const FilterPage(),
       RouteName.mainPage,
@@ -89,7 +91,9 @@ class NavigationServiceState implements Navigation {
     int courseId,
     String courseCode,
   ) {
-    MixpanelService.track(LegacyEvent('view_course'));
+    // tracking has moved into detail_matkul_page.dart
+    // tracking it here does not provide enough context
+    // MixpanelService.track(LegacyEvent('view_course'));
     return nav.push<void>(
       DetailMatkulPage(
         courseId: courseId,

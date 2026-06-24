@@ -157,16 +157,36 @@ class _FilterPageState extends BaseStateful<FilterPage> {
                 child: AutoLayoutButton(
                   text: 'Terapkan Filter',
                   onTap: () {
+                    final filterState = filterRM.state;
+
+                    if (filterState.selectedType.isNotEmpty) {
+                      MixpanelService.track(
+                        FilterUsedEvent(
+                          filterType: 'jenis_matkul',
+                          selectedValue: filterState.selectedType.join(', '),
+                        ),
+                      );
+                    }
+
+                    if (filterState.selectedSks.isNotEmpty) {
+                      MixpanelService.track(
+                        FilterUsedEvent(
+                          filterType: 'SKS',
+                          selectedValue: filterState.selectedSks.join(', '),
+                        ),
+                      );
+                    }
+
+                    if (filterState.selectedSemester.isNotEmpty) {
+                      MixpanelService.track(
+                        FilterUsedEvent(
+                          filterType: 'semester',
+                          selectedValue: filterState.selectedSemester.join(', '),
+                        ),
+                      );
+                    }
+                    
                     nav.pop<bool>(true);
-                    MixpanelService.track(LegacyEvent(
-                      'apply_course_filter',
-                      params: {
-                        'jenis_matkul': filterRM.state.selectedType.toString(),
-                        'jumlah_sks': filterRM.state.selectedSks.toString(),
-                        'semester_wajib_ambil':
-                            filterRM.state.selectedSemester.toString(),
-                      },
-                    ));
                   },
                 ),
               ),
