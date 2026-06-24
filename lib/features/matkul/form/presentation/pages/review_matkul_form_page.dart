@@ -146,6 +146,23 @@ class _ReviewMatkulFormPageState extends BaseStateful<ReviewMatkulFormPage> {
                       // Submit the form
                       await reviewFormRM.state
                           .submitForm(course: widget.course);
+
+                      // calculate avg rating for tracking
+                      final totalRating = ratings.fold<double>(
+                        0, 
+                        (sum, item) => sum + (item ?? 0),
+                      );
+                      final avgRating = (totalRating / 5).round();
+
+                      MixpanelService.track(
+                        ReviewSubmittedEvent(
+                          matkulId: widget.course.id.toString(),
+                          periode: '${reviewFormStateData.semester} '
+                            '${reviewFormStateData.year}',
+                          rating: avgRating,
+                          hasTag: reviewFormStateData.tagData.isNotEmpty,
+                        ),
+                      );
                       await Future.delayed(const Duration(milliseconds: 150));
 
                       reviewFormRM.state.cleanForm();
@@ -349,6 +366,21 @@ class _ReviewMatkulFormPageState extends BaseStateful<ReviewMatkulFormPage> {
 
   @override
   Future<bool> onBackPressed() async {
+    final formData = reviewFormRM.state.formData;
+    final descText = reviewFormRM.state.descController.text;
+
+    // form is considered filled when user has already written a review,
+    // changes their rating, or adds tags
+    final isFormFilled = descText.isNotEmpty ||
+        formData.ratingUnderstandable != null ||
+        formData.tagData.isNotEmpty;
+
+    MixpanelService.track(
+      ReviewAbandonedEvent(
+        matkulId: widget.course.id.toString(),
+        formFilled: isFormFilled,
+      ),
+    );
     reviewFormRM.state.cleanForm();
     nav.pop<void>();
     return true;
