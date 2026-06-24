@@ -90,6 +90,7 @@ class _HomePageState extends BaseStateful<HomePage> {
                 }
                 return AppTourCard(
                   onTap: () {
+                    MixpanelService.track(OnboardingReplayedEvent());
                     Pref.saveBool('doneAppTour', value: false);
                     showInAppTourOpening(context);
                   },
