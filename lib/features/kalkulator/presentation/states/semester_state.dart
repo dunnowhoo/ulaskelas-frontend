@@ -78,14 +78,14 @@ class SemesterState {
     // required double totalScore,
   }) async {
     final resp = await _repo.deleteSemester(query);
-    // MixpanelService.track(
+    // MixpanelService.track(LegacyEvent(
     //   'semester_delete_course_component',
     //   params: {
     //     'course_id': courseName,
     //     'final_letter_grade': totalScore.toString(),
     //     'final_grade': getFinalGrade(totalScore),
     //   },
-    // );
+    // ));
     await resp.fold((failure) {
       ErrorMessenger('Data Semester gagal dihapus').show(ctx!);
     }, (result) async {

@@ -31,7 +31,7 @@ class _MainPageState extends BaseStateful<MainPage> {
       HomePage(
         onSeeAllCourse: () {
           setState(() => _selectedIndex = 1);
-          MixpanelService.track('view_all_courses');
+          MixpanelService.track(LegacyEvent('view_all_courses'));
         },
       ),
       const SearchCoursePage(),
@@ -100,13 +100,13 @@ class _MainPageState extends BaseStateful<MainPage> {
           onTap: (int index) {
             switch (index) {
               case 1:
-                MixpanelService.track('open_courses');
+                MixpanelService.track(LegacyEvent('open_courses'));
               case 2:
-                MixpanelService.track('open_askfriends');
+                MixpanelService.track(LegacyEvent('open_askfriends'));
               case 3:
-                MixpanelService.track('open_calculator');
+                MixpanelService.track(LegacyEvent('open_calculator'));
               case 4:
-                MixpanelService.track('open_profile');
+                MixpanelService.track(LegacyEvent('open_profile'));
             }
             setState(() => _selectedIndex = index);
           },

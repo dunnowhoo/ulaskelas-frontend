@@ -111,7 +111,7 @@ class ReviewCourseState {
       }
       reviewCourseRM.notify();
     });
-    MixpanelService.track(
+    MixpanelService.track(LegacyEvent(
       'like_review',
       params: {
         'course_id': review.courseCode.toString(),
@@ -119,6 +119,6 @@ class ReviewCourseState {
         'review_count': review.likesCount.toString(),
         'course_rating_avg': review.ratingAverage.toString(),
       },
-    );
+    ));
   }
 }

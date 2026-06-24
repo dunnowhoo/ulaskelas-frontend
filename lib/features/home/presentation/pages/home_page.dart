@@ -281,7 +281,7 @@ class _HomePageState extends BaseStateful<HomePage> {
                           review.courseCode.toString(),
                         );
 
-                        MixpanelService.track('view_my_review');
+                        MixpanelService.track(LegacyEvent('view_my_review'));
                       },
                     );
                   },

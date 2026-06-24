@@ -37,7 +37,7 @@ class TitleAndBookMark extends StatelessWidget {
                       shortName: course.shortName,
                     );
                     bookmarkRM.setState((s) => s.toggleBookmark(bookmark));
-                    MixpanelService.track('bookmark_course');
+                    MixpanelService.track(LegacyEvent('bookmark_course'));
                   },
                   child: Icon(
                     Icons.bookmark,

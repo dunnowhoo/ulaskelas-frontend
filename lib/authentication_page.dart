@@ -158,7 +158,7 @@ class AuthenticationPage extends StatelessWidget {
   }
 
   Future<void> _ssoLogin() async {
-    MixpanelService.track('login');
+    MixpanelService.track(LegacyEvent('login'));
     if (authRM.state.isLoading) {
       return;
     }
@@ -171,7 +171,7 @@ class AuthenticationPage extends StatelessWidget {
     await Future.delayed(const Duration(seconds: 1));
     await authRM.setState((s) => s.ssoLogin());
     if (authRM.state.isLogin) {
-      MixpanelService.track('login_success');
+      MixpanelService.track(LegacyEvent('login_success'));
       await profileRM.state.retrieveData();
       await bookmarkRM.state.retrieveData(QueryBookmark());
       if (profileRM.state.profile.isBlocked ?? false) {

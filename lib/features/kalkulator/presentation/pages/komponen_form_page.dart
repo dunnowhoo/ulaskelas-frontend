@@ -178,7 +178,7 @@ class _ComponentFormPageState extends BaseStateful<ComponentFormPage> {
     if (componentFormRM.state.isLoading) {
       return;
     }
-    MixpanelService.track('calculator_add_course_component');
+    MixpanelService.track(LegacyEvent('calculator_add_course_component'));
 
     final allIsEmpty = componentFormRM.state.averageScore() == null;
     final oneIsEmpty = componentFormRM.state.scoreControllers.any(

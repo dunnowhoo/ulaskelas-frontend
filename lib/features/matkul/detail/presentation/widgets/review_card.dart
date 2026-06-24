@@ -244,7 +244,7 @@ class PopupMenu extends StatelessWidget {
   void _onSelected(BuildContext context, int value, ReviewModel review) {
     switch (value) {
       case 1:
-        MixpanelService.track(
+        MixpanelService.track(LegacyEvent(
           'report_review',
           params: {
             'course_id': review.courseCode.toString(),
@@ -252,7 +252,7 @@ class PopupMenu extends StatelessWidget {
             'previous_likes': review.likesCount.toString(),
             'score_given_by_review': review.courseReviewCount.toString(),
           },
-        );
+        ));
         LaunchServices.openEmail(
           'team@ristek.cs.ui.ac.id',
           '''

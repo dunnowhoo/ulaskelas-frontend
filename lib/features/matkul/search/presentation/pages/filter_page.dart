@@ -158,7 +158,7 @@ class _FilterPageState extends BaseStateful<FilterPage> {
                   text: 'Terapkan Filter',
                   onTap: () {
                     nav.pop<bool>(true);
-                    MixpanelService.track(
+                    MixpanelService.track(LegacyEvent(
                       'apply_course_filter',
                       params: {
                         'jenis_matkul': filterRM.state.selectedType.toString(),
@@ -166,7 +166,7 @@ class _FilterPageState extends BaseStateful<FilterPage> {
                         'semester_wajib_ambil':
                             filterRM.state.selectedSemester.toString(),
                       },
-                    );
+                    ));
                   },
                 ),
               ),

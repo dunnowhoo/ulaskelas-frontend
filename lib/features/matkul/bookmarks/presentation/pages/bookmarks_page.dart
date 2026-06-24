@@ -92,12 +92,12 @@ Kamu Belum memiliki Mata kuliah tersimpan. Silakan tambahkan terlebih dahulu.'''
                       bookmark.courseId!,
                       bookmark.courseCode!,
                     );
-                    MixpanelService.track(
+                    MixpanelService.track(LegacyEvent(
                       'open_profile_saved_course',
                       params: {
                         'course_id': bookmark.courseCode!,
                       },
-                    );
+                    ));
                   },
                 );
               },

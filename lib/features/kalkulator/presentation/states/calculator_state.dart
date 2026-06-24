@@ -149,14 +149,14 @@ class CalculatorState {
     required double totalScore,
   }) async {
     final resp = await _repo.deleteCalculator(query, givenSemester);
-    MixpanelService.track(
+    MixpanelService.track(LegacyEvent(
       'calculator_delete_course_component',
       params: {
         'course_id': courseName,
         'final_letter_grade': totalScore.toString(),
         'final_grade': getFinalGrade(totalScore),
       },
-    );
+    ));
     await resp.fold((failure) {
       ErrorMessenger('Kalkulator gagal dihapus').show(ctx!);
     }, (result) async {

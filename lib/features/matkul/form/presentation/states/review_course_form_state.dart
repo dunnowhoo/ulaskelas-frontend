@@ -47,7 +47,7 @@ class ReviewCourseFormState {
     result['rating_recommended'] = _formData.ratingRecommended;
 
     final resp = await _repo.createReview(result);
-    MixpanelService.track(
+    MixpanelService.track(LegacyEvent(
       'write_review',
       params: {
         'course_id': course.code.toString(),
@@ -59,7 +59,7 @@ class ReviewCourseFormState {
         'tags': _formData.tagData.toString(),
         'anonymous_review': _formData.isAnonymous.toString(),
       },
-    );
+    ));
     isLoading = false;
     reviewFormRM.notify();
     resp.fold((failure) {

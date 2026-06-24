@@ -555,3 +555,22 @@ class OnboardingReplayedEvent extends AppAnalyticsEvent {
         'eventLabel': 'temankuliah::onboarding-replayed',
       };
 }
+
+// --- LEGACY EVENTS (Preserved from old implementation) ---
+class LegacyEvent extends AppAnalyticsEvent {
+  @override
+  final String eventName;
+  final Map<String, dynamic>? params;
+
+  LegacyEvent(this.eventName, {this.params});
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'eventName': eventName,
+      'eventCategory': 'legacy',
+      if (params != null) ...params!,
+    };
+  }
+}
+
