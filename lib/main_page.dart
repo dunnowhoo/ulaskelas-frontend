@@ -102,9 +102,9 @@ class _MainPageState extends BaseStateful<MainPage> {
               case 1:
                 MixpanelService.track(LegacyEvent('open_courses'));
               case 2:
-                MixpanelService.track(LegacyEvent('open_askfriends'));
+                MixpanelService.track(TanyaTemanViewedEvent());
               case 3:
-                MixpanelService.track(LegacyEvent('open_calculator'));
+                MixpanelService.track(CalculatorOpenedEvent());
               case 4:
                 MixpanelService.track(LegacyEvent('open_profile'));
             }

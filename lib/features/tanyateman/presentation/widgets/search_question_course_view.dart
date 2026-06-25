@@ -98,6 +98,13 @@ Mata kuliah yang kamu cari tidak ada di aplikasi. Silakan coba lagi dengan kata 
   Widget _buildCardCourse(BuildContext context, CourseModel model) {
     return GestureDetector(
       onTap: () {
+        MixpanelService.track(
+          QuestionFilterUsedEvent(
+            filterType: 'matkul',
+            selectedValue: model.name.toString(),
+          ),
+        );
+
         nav.pop();
         onSubmittingSearch(model);
       },

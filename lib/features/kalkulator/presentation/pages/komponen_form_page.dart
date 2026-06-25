@@ -470,6 +470,12 @@ class _ComponentFormPageState extends BaseStateful<ComponentFormPage> {
   Future<bool> onBackPressed() async {
     componentFormRM.state.previousFrequency = '1';
     componentFormRM.state.cleanForm();
+
+    if (widget.totalScore == 0) {
+      MixpanelService.track(
+          CalculatorDroppedEvent(lastScreen: 'Tambah Komponen'));
+    }
+
     nav.pop<void>();
     return true;
   }

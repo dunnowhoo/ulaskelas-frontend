@@ -339,6 +339,11 @@ class _CalculatorComponentPageState
 
   @override
   Future<bool> onBackPressed() async {
+    if (widget.totalScore == 0) {
+      MixpanelService.track(
+        CalculatorDroppedEvent(lastScreen: 'Tambah Nilai Mata Kuliah'));
+    }
+
     nav.pop();
     await calculatorRM.state.retrieveData(widget.givenSemester);
     return true;

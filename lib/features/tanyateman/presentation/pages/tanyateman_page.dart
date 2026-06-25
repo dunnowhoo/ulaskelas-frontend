@@ -214,6 +214,10 @@ class _TanyaTemanPageState extends BaseStateful<TanyaTemanPage> {
         return;
       }
 
+      MixpanelService.track(
+        QuestionSearchedEvent(query: searchQuestionRM.state.controller.text),
+      );
+
       searchQuestionRM.state.addToHistory(
         searchQuestionRM.state.controller.text,
       ); // Save to history after search
@@ -330,6 +334,11 @@ class _TanyaTemanPageState extends BaseStateful<TanyaTemanPage> {
                 ),
                 child: TabBar(
                   labelPadding: EdgeInsets.zero,
+                  onTap: (index) {
+                    if (index == 1) {
+                      MixpanelService.track(RiwayatPertanyaanViewedEvent());
+                    }
+                  },
                   tabs: [
                     Tab(
                       height: 45,

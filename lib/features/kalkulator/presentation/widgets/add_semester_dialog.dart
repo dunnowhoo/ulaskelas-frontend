@@ -188,7 +188,16 @@ class _AddSemesterDialogState extends State<AddSemesterDialog> {
             ),
             SimpanButton(
               isForAutoFill: true,
-              onTap: () => widget.onPressed(_selectedSemester),
+              onTap: () {
+                widget.onPressed(_selectedSemester);
+                for (final semester in _selectedSemester) {
+                  MixpanelService.track(
+                    CalculatorSemesterAddedEvent(
+                      semesterName: semester,
+                    ),
+                  );
+                }
+              },
               text: 'Tambah Semester',
             ),
           ],
