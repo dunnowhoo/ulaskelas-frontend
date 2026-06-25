@@ -158,7 +158,6 @@ class AuthenticationPage extends StatelessWidget {
   }
 
   Future<void> _ssoLogin() async {
-    MixpanelService.track(LegacyEvent('login'));
     if (authRM.state.isLoading) {
       return;
     }
@@ -171,9 +170,12 @@ class AuthenticationPage extends StatelessWidget {
     await Future.delayed(const Duration(seconds: 1));
     await authRM.setState((s) => s.ssoLogin());
     if (authRM.state.isLogin) {
-      MixpanelService.track(LegacyEvent('login_success'));
       await profileRM.state.retrieveData();
       await bookmarkRM.state.retrieveData(QueryBookmark());
+
+      final isNewUser = authRM.state.isNewUser ?? false;
+      _trackLoginAnalytics(isNewUser);
+
       if (profileRM.state.profile.isBlocked ?? false) {
         ErrorMessenger('Your account is blocked').show(ctx!);
         return;
@@ -187,6 +189,25 @@ class AuthenticationPage extends StatelessWidget {
         return;
       }),
     );
+  }
+
+  void _trackLoginAnalytics(bool isNewUser) {
+    if (isNewUser) {
+      MixpanelService.track(UserRegisteredEvent());
+      MixpanelService.track(UserLoginEvent(isNewUser: true));
+
+      final facultyName = profileRM.state.profile.faculty ?? 'Unknown';
+      final isFasilkom = facultyName.toLowerCase().contains('ilmu komputer');
+      
+      MixpanelService.track(
+        FacultyExpansionSignupEvent(
+          facultyName: facultyName,
+          isFasilkom: isFasilkom,
+        ),
+      );
+    } else {
+      MixpanelService.track(UserLoginEvent(isNewUser: false));
+    }
   }
 }
 

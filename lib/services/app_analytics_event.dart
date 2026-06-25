@@ -10,12 +10,34 @@ class UserRegisteredEvent extends AppAnalyticsEvent {
   @override
   Map<String, dynamic> toMap() => {
         'eventName': eventName,
-        'eventAction': 'register',
-        'eventCategory': 'auth',
-        'fieldName': 'method: SSO',
-        'screenName': 'Beranda',
+        'eventAction': 'registered',
+        'eventCategory': 'authentication',
+        'screenName': 'SSO Web Page',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::user-registered',
+      };
+}
+
+class FacultyExpansionSignupEvent extends AppAnalyticsEvent {
+  final String facultyName;
+  final bool isFasilkom;
+
+  FacultyExpansionSignupEvent({
+    required this.facultyName,
+    required this.isFasilkom,
+  });
+
+  @override
+  final String eventName = 'faculty_expansion_signup';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'computed',
+        'eventCategory': 'acquisition',
+        'fieldName': 'fakultas: $facultyName, is_fasilkom: $isFasilkom',
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::faculty-expansion-signup',
       };
 }
 

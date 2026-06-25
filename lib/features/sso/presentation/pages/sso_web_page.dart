@@ -85,6 +85,11 @@ class _SSOWebPageState extends BaseStateful<SSOWebPage> {
       for (final param in params.entries) {
         if (param.key == 'token') {
           Pref.saveToken(param.value);
+        } else if (param.key == 'is_new_user') {
+          authRM.setState((s) {
+            s.isNewUser = param.value == 'true';
+            return;
+          });
         } else if (param.key == 'username') {
           Pref.saveString(param.key, param.value);
           authRM.setState((s) {

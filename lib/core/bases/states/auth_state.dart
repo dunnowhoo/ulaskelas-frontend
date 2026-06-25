@@ -8,6 +8,7 @@ class AuthState {
   WindowBase? _popupWin;
 
   late bool isNewInstall;
+  bool? isNewUser;
 
   bool get isLogin => _isLogin ?? false;
   set isLogin(bool val) => _isLogin = val;
@@ -53,6 +54,11 @@ class AuthState {
     for (final param in params.entries) {
       if (param.key == 'token') {
         await Pref.saveToken(param.value);
+      } else if (param.key == 'is_new_user') {
+        await authRM.setState((s) {
+          s.isNewUser = param.value == 'true';
+          return;
+        });
       } else if (param.key == 'username') {
         await Pref.saveString(param.key, param.value);
         await authRM.setState((s) {
