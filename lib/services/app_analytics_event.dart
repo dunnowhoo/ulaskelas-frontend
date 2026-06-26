@@ -95,7 +95,7 @@ class OnboardingSkippedEvent extends AppAnalyticsEvent {
         'eventName': eventName,
         'eventAction': 'skip',
         'eventCategory': 'onboarding',
-        'fieldName': 'step_skipped: $stepSkipped',
+        'fieldName': 'skipped_at_step: $stepSkipped',
         'screenName': 'Beranda',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::onboarding-skipped',
@@ -595,4 +595,3 @@ class LegacyEvent extends AppAnalyticsEvent {
     };
   }
 }
-

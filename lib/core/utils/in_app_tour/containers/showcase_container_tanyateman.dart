@@ -94,6 +94,9 @@ Widget userBoxTTShowcase(BuildContext ctx) {
                           textAlign: TextAlign.center,
                         ),
                         onPressed: () async {
+                          setRubyOnboardingStep(
+                            RubyTourStep.tanyaTemanSearchBar,
+                          );
                           ShowCaseWidget.of(ctx).next();
                           backFromTanyaTeman = false;
                         },
@@ -213,6 +216,7 @@ Widget searchBarTTShowcase(BuildContext ctx) {
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () async {
+                      setRubyOnboardingStep(RubyTourStep.navbarCalculator);
                       ShowCaseWidget.of(ctx).next();
                       await showcaseNavbarCalc();
                     },

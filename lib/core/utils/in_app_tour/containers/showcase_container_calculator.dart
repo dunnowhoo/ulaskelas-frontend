@@ -96,6 +96,7 @@ Widget emptyCalcGCShowcase(BuildContext ctx) {
                           textAlign: TextAlign.center,
                         ),
                         onPressed: () async {
+                          setRubyOnboardingStep(RubyTourStep.autoFill);
                           ShowCaseWidget.of(ctx).next();
                           backFromCalculator = false;
                         },
@@ -261,6 +262,7 @@ Widget autoFillGCShowcase(BuildContext ctx) {
 }
 
 Future<void> showMockAutoFillSemesterDialog(BuildContext ctx) async {
+  setRubyOnboardingStep(RubyTourStep.autoFillDialog);
   await showDialog(
     context: ctx,
     barrierDismissible: false,
@@ -363,6 +365,7 @@ Widget filledCalcGCShowcase(BuildContext ctx) {
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () async {
+                      setRubyOnboardingStep(RubyTourStep.semesterCard);
                       ShowCaseWidget.of(ctx).next();
                       backFromCalculator = false;
                     },

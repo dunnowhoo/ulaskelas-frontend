@@ -38,6 +38,65 @@ bool userHasUsedAutoFill = false;
 bool firstComponentFilled = false;
 bool secondComponentFilled = false;
 
+enum RubyTourStep {
+  navbarMatkul,
+  searchBar,
+  filter,
+  courseCard,
+  courseDetail,
+  reviewBySelf,
+  reviews,
+  navbarTanyaTeman,
+  tanyaTemanUserBox,
+  tanyaTemanSearchBar,
+  navbarCalculator,
+  emptySemester,
+  autoFill,
+  autoFillDialog,
+  filledSemester,
+  semesterCard,
+  semesterPageCourseCard,
+  totalComponent,
+  addComponent,
+  componentField,
+  componentName,
+  componentWeight,
+  componentScore,
+  incompleteComponent,
+  targetScore,
+  finalScore,
+  navbarProfile,
+  closing,
+}
+
+int get rubyOnboardingTotalSteps => RubyTourStep.values.length;
+
+RubyTourStep? rubyOnboardingCurrentStep;
+
+int get rubyOnboardingCurrentStepNumber {
+  final currentStep = rubyOnboardingCurrentStep;
+  if (currentStep == null) {
+    return 0;
+  }
+  return RubyTourStep.values.indexOf(currentStep) + 1;
+}
+
+void setRubyOnboardingStep(RubyTourStep step) {
+  rubyOnboardingCurrentStep = step;
+}
+
+void resetRubyOnboardingStep() {
+  rubyOnboardingCurrentStep = null;
+}
+
+void trackRubyOnboardingSkipped() {
+  MixpanelService.track(
+    OnboardingSkippedEvent(
+      stepSkipped: rubyOnboardingCurrentStepNumber,
+    ),
+  );
+}
+
 Future<void> showInAppTourOpening(BuildContext ctx, {bool back = false}) async {
   if (!back) {
     await Future.delayed(const Duration(milliseconds: 700));
@@ -286,6 +345,8 @@ Future<void> showSkipConfirmationDialog(
                               ShowCaseWidget.of(ctx).dismiss();
                             }
 
+                            trackRubyOnboardingSkipped();
+
                             backFromTanyaTeman = false;
                             backFromCalculator = false;
                             backFromNavbarProfile = false;
@@ -295,6 +356,7 @@ Future<void> showSkipConfirmationDialog(
                             secondComponentFilled = false;
 
                             await Pref.saveBool('doneAppTour', value: true);
+                            resetRubyOnboardingStep();
                           },
                         ),
                       ),
@@ -313,10 +375,12 @@ Future<void> showSkipConfirmationDialog(
 }
 
 Future<void> showcaseNavbarMatkul() async {
+  setRubyOnboardingStep(RubyTourStep.navbarMatkul);
   ShowCaseWidget.of(navbarContext!).startShowCase([inAppTourKeys.navbarMatkul]);
 }
 
 Future<void> showcaseSearchPage() async {
+  setRubyOnboardingStep(RubyTourStep.searchBar);
   ShowCaseWidget.of(searchPageContext!).startShowCase([
     inAppTourKeys.searchBarSP,
     inAppTourKeys.filterSP,
@@ -325,6 +389,7 @@ Future<void> showcaseSearchPage() async {
 }
 
 Future<void> showcaseCourseDetail({bool back = false}) async {
+  setRubyOnboardingStep(RubyTourStep.courseDetail);
   if (!back) {
     await Future.delayed(const Duration(milliseconds: 1500));
   }
@@ -333,16 +398,20 @@ Future<void> showcaseCourseDetail({bool back = false}) async {
 }
 
 Future<void> showcaseReviewing() async {
+  setRubyOnboardingStep(RubyTourStep.reviewBySelf);
   ShowCaseWidget.of(detailMatkulContext!)
       .startShowCase([inAppTourKeys.reviewBySelfDM]);
 }
 
 Future<void> showcaseReviews() async {
+  setRubyOnboardingStep(RubyTourStep.reviews);
   ShowCaseWidget.of(detailMatkulContext!)
       .startShowCase([inAppTourKeys.reviewsDM]);
 }
 
 Future<void> showcaseNavbarTanyaTeman({VoidCallback? onBack}) async {
+  setRubyOnboardingStep(RubyTourStep.navbarTanyaTeman);
+
   if (onBack != null) {
     backToDetailPage = onBack;
   }
@@ -359,6 +428,10 @@ Future<void> showcaseTanyaTeman({
     await Future.delayed(const Duration(milliseconds: 800));
   }
 
+  setRubyOnboardingStep(
+    back ? RubyTourStep.tanyaTemanSearchBar : RubyTourStep.tanyaTemanUserBox,
+  );
+
   ShowCaseWidget.of(tanyaTemanContext!).startShowCase([
     if (!back) inAppTourKeys.userBoxTT,
     inAppTourKeys.searchBarTT,
@@ -366,6 +439,7 @@ Future<void> showcaseTanyaTeman({
 }
 
 Future<void> showcaseNavbarCalc() async {
+  setRubyOnboardingStep(RubyTourStep.navbarCalculator);
   ShowCaseWidget.of(navbarContext!).startShowCase([inAppTourKeys.navbarCalc]);
 }
 
@@ -376,6 +450,10 @@ Future<void> showcaseEmptySemester({
   if (!(back || previous)) {
     await Future.delayed(const Duration(milliseconds: 100));
   }
+
+  setRubyOnboardingStep(
+    back ? RubyTourStep.autoFill : RubyTourStep.emptySemester,
+  );
 
   ShowCaseWidget.of(calculatorContext!).startShowCase([
     if (!back) inAppTourKeys.emptySemesterGC,
@@ -391,6 +469,10 @@ Future<void> showcaseFilledSemester({
     await Future.delayed(const Duration(milliseconds: 200));
   }
 
+  setRubyOnboardingStep(
+    back ? RubyTourStep.semesterCard : RubyTourStep.filledSemester,
+  );
+
   ShowCaseWidget.of(calculatorContext!).startShowCase([
     if (!back) inAppTourKeys.filledSemesterGC,
     inAppTourKeys.semesterCardGC,
@@ -403,6 +485,7 @@ Future<void> showcaseSemesterPage({bool back = false}) async {
   } else {
     await Future.delayed(const Duration(milliseconds: 200));
   }
+  setRubyOnboardingStep(RubyTourStep.semesterPageCourseCard);
   ShowCaseWidget.of(semesterContext!)
       .startShowCase([inAppTourKeys.courseCardGC]);
 }
@@ -416,6 +499,9 @@ Future<void> showcaseComponentPage({
   if (!previous) {
     await Future.delayed(const Duration(milliseconds: 100));
   }
+  setRubyOnboardingStep(
+    back ? RubyTourStep.addComponent : RubyTourStep.totalComponent,
+  );
   ShowCaseWidget.of(matkulCalcContext!).startShowCase([
     if (!back) inAppTourKeys.totalComponentGC,
     inAppTourKeys.addComponentGC,
@@ -423,22 +509,26 @@ Future<void> showcaseComponentPage({
 }
 
 Future<void> showcaseAddComponentFields() async {
+  setRubyOnboardingStep(RubyTourStep.componentField);
   ShowCaseWidget.of(addComponentContext!)
       .startShowCase([inAppTourKeys.componentFieldGC]);
 }
 
 Future<void> showcaseAddComponentName() async {
+  setRubyOnboardingStep(RubyTourStep.componentName);
   ShowCaseWidget.of(addComponentContext!)
       .startShowCase([inAppTourKeys.componentNameGC]);
 }
 
 Future<void> showcaseAddComponentWeight() async {
+  setRubyOnboardingStep(RubyTourStep.componentWeight);
   await Future.delayed(const Duration(milliseconds: 300));
   ShowCaseWidget.of(addComponentContext!)
       .startShowCase([inAppTourKeys.componentWeightGC]);
 }
 
 Future<void> showcaseAddComponentScore() async {
+  setRubyOnboardingStep(RubyTourStep.componentScore);
   await Future.delayed(const Duration(milliseconds: 300));
   await componentFormRM.setState((s) {
     s.nameController.text = firstComponentFilled ? 'UAS' : 'UTS';
@@ -450,30 +540,36 @@ Future<void> showcaseAddComponentScore() async {
 }
 
 Future<void> showcaseIncompleteComponent() async {
+  setRubyOnboardingStep(RubyTourStep.incompleteComponent);
   ShowCaseWidget.of(matkulCalcContext!).startShowCase([
     inAppTourKeys.incompleteComponentGC,
   ]);
 }
 
 Future<void> showcaseTargetScoreComponent() async {
+  setRubyOnboardingStep(RubyTourStep.targetScore);
   ShowCaseWidget.of(matkulCalcContext!).startShowCase([
     inAppTourKeys.targetScoreGC,
   ]);
 }
 
 Future<void> showcaseFinalScoreComponent() async {
+  setRubyOnboardingStep(RubyTourStep.finalScore);
   ShowCaseWidget.of(matkulCalcContext!).startShowCase([
     inAppTourKeys.finalScoreGC,
   ]);
 }
 
 Future<void> showcaseNavbarProfile() async {
+  setRubyOnboardingStep(RubyTourStep.navbarProfile);
   ShowCaseWidget.of(navbarContext!).startShowCase([
     inAppTourKeys.navbarProfile,
   ]);
 }
 
 Future<void> showInAppTourClosing(BuildContext ctx) async {
+  setRubyOnboardingStep(RubyTourStep.closing);
+
   await Future.delayed(const Duration(milliseconds: 700));
 
   backFromTanyaTeman = false;
@@ -606,10 +702,16 @@ Future<void> showInAppTourClosing(BuildContext ctx) async {
                                       nav.pop();
                                       navbarController(0);
                                       print('User Done!');
+                                      MixpanelService.track(
+                                        OnboardingCompletedEvent(
+                                          totalSteps: rubyOnboardingTotalSteps,
+                                        ),
+                                      );
                                       await Pref.saveBool(
                                         'doneAppTour',
                                         value: true,
                                       );
+                                      resetRubyOnboardingStep();
                                     },
                                   ),
                                 ),
