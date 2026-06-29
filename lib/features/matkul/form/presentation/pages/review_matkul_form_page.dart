@@ -152,7 +152,7 @@ class _ReviewMatkulFormPageState extends BaseStateful<ReviewMatkulFormPage> {
                         0, 
                         (sum, item) => sum + (item ?? 0),
                       );
-                      final avgRating = (totalRating / 5).round();
+                      final avgRating = totalRating / 5;
 
                       MixpanelService.track(
                         ReviewSubmittedEvent(

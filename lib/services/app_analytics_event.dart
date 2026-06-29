@@ -221,7 +221,7 @@ class CourseDetailViewedEvent extends AppAnalyticsEvent {
 class ReviewSubmittedEvent extends AppAnalyticsEvent {
   final String matkulId;
   final String periode;
-  final int rating;
+  final double rating;
   final bool hasTag;
 
   ReviewSubmittedEvent({
