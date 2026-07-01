@@ -556,6 +556,26 @@ class OnboardingReplayedEvent extends AppAnalyticsEvent {
       };
 }
 
+class MyReviewViewedEvent extends AppAnalyticsEvent {
+  final String sourceScreen;
+
+  MyReviewViewedEvent({required this.sourceScreen});
+
+  @override
+  final String eventName = 'my_review_viewed';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'tap',
+        'eventCategory': 'profile',
+        'fieldName': 'source: $sourceScreen',
+        'screenName': sourceScreen,
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::my-review-viewed',
+      };
+}
+
 // --- LEGACY EVENTS (Preserved from old implementation) ---
 class LegacyEvent extends AppAnalyticsEvent {
   @override

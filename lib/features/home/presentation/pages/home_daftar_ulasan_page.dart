@@ -75,7 +75,9 @@ class _HomeDaftarUlasanPageState extends BaseStateful<HomeDaftarUlasanPage> {
                     review.course!,
                     review.courseCode!,
                   );
-                  MixpanelService.track(LegacyEvent('view_my_review'));
+                  MixpanelService.track(
+                    MyReviewViewedEvent(sourceScreen: 'Riwayat Ulasanmu'),
+                  );
                 },
               );
             },
