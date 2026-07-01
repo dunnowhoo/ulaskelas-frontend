@@ -159,29 +159,29 @@ class _FilterPageState extends BaseStateful<FilterPage> {
                   onTap: () {
                     final filterState = filterRM.state;
 
+                    final List<String> appliedTypes = [];
+                    final List<String> appliedValues = [];
+
                     if (filterState.selectedType.isNotEmpty) {
-                      MixpanelService.track(
-                        FilterUsedEvent(
-                          filterType: 'jenis_matkul',
-                          selectedValue: filterState.selectedType.join(', '),
-                        ),
-                      );
+                      appliedTypes.add('jenis_matkul');
+                      appliedValues.add(filterState.selectedType.join(', '));
                     }
 
                     if (filterState.selectedSks.isNotEmpty) {
-                      MixpanelService.track(
-                        FilterUsedEvent(
-                          filterType: 'SKS',
-                          selectedValue: filterState.selectedSks.join(', '),
-                        ),
-                      );
+                      appliedTypes.add('SKS');
+                      appliedValues.add(filterState.selectedSks.join(', '));
                     }
 
                     if (filterState.selectedSemester.isNotEmpty) {
+                      appliedTypes.add('semester');
+                      appliedValues.add(filterState.selectedSemester.join(', '));
+                    }
+
+                    if (appliedTypes.isNotEmpty) {
                       MixpanelService.track(
                         FilterUsedEvent(
-                          filterType: 'semester',
-                          selectedValue: filterState.selectedSemester.join(', '),
+                          filterTypes: appliedTypes,
+                          selectedValues: appliedValues,
                         ),
                       );
                     }
