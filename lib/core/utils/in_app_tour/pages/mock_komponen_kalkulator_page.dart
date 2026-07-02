@@ -534,6 +534,8 @@ class _MockCalculatorComponentPageState
       grade = 'C';
     } else if (score >= 40) {
       grade = 'D';
+    } else {
+      grade = 'E';
     }
 
     return '$grade (${score.toStringAsFixed(2)})';

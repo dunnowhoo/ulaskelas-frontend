@@ -101,6 +101,7 @@ Widget searchBarSPShowcase(BuildContext ctx) {
                       await Future.delayed(
                         const Duration(milliseconds: 200),
                         () {
+                          setRubyOnboardingStep(RubyTourStep.filter);
                           ShowCaseWidget.of(ctx).next();
                         },
                       );
@@ -206,6 +207,7 @@ Widget filterSPShowcase(BuildContext ctx) {
                         textAlign: TextAlign.center,
                       ),
                       onPressed: () async {
+                        setRubyOnboardingStep(RubyTourStep.courseCard);
                         ShowCaseWidget.of(ctx).next();
                       },
                     ),

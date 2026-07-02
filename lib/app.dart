@@ -6,11 +6,36 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:ulaskelas/app_wrapper.dart';
 import 'package:ulaskelas/core/bases/states/_states.dart';
 import 'package:ulaskelas/core/constants/_constants.dart';
+import 'package:ulaskelas/services/_services.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      MixpanelService.track(AppSessionStartedEvent(launchType: 'warm'));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

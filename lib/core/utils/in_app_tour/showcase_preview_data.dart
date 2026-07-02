@@ -33,3 +33,41 @@ final Map<String, dynamic> dummyReview = {
   'is_liked': false,
   'rating_average': 5.0,
 };
+
+final List<Map<String, dynamic>> dummyReviews = [
+  dummyReview,
+  {
+    ...dummyReview,
+    'id': 271,
+    'created_at': '2023-08-14T09:25:30.135920Z',
+    'updated_at': '2023-08-14T09:25:30.135920Z',
+    'academic_year': '2022/2023',
+    'semester': 1,
+    'content': 'Materinya cukup padat, tapi kalau rajin mengikuti praktikum '
+        'dan latihan soal, konsepnya jadi jauh lebih mudah dipahami.',
+    'author_generation': '2021',
+    'rating_understandable': 4.0,
+    'rating_fit_to_credit': 4.0,
+    'rating_fit_to_study_book': 5.0,
+    'rating_beneficial': 5.0,
+    'rating_recommended': 4.0,
+    'rating_average': 4.4,
+  },
+  {
+    ...dummyReview,
+    'id': 272,
+    'created_at': '2023-09-03T13:48:12.135920Z',
+    'updated_at': '2023-09-03T13:48:12.135920Z',
+    'academic_year': '2022/2023',
+    'semester': 2,
+    'content': 'Kelas ini membantu banget untuk membangun dasar berpikir '
+        'terstruktur. Tugasnya menantang, tetapi masih sesuai dengan bobot SKS.',
+    'author_generation': '2020',
+    'rating_understandable': 5.0,
+    'rating_fit_to_credit': 4.0,
+    'rating_fit_to_study_book': 4.0,
+    'rating_beneficial': 5.0,
+    'rating_recommended': 5.0,
+    'rating_average': 4.6,
+  },
+];
