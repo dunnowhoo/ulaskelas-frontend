@@ -97,8 +97,16 @@ class CalculatorOpenedEvent extends AppAnalyticsEvent {
 
 class CalculatorSemesterAddedEvent extends AppAnalyticsEvent {
   final String semesterName;
+  final bool isBulk;
+  final String batchId;
+  final int batchSize;
 
-  CalculatorSemesterAddedEvent({required this.semesterName});
+  CalculatorSemesterAddedEvent({
+    required this.semesterName,
+    required this.isBulk,
+    required this.batchId,
+    required this.batchSize,
+  });
 
   @override
   final String eventName = 'calculator_semester_added';
@@ -112,6 +120,9 @@ class CalculatorSemesterAddedEvent extends AppAnalyticsEvent {
         'screenName': 'Kalkulator Nilai Mata Kuliah',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::calculator-semester-added',
+        'isBulk': isBulk,
+        'batchId': batchId,
+        'batchSize': batchSize,
       };
 }
 
@@ -467,7 +478,8 @@ class QuestionFilterUsedEvent extends AppAnalyticsEvent {
   final String filterType; // <matkul|kategori>
   final String selectedValue;
 
-  QuestionFilterUsedEvent({required this.filterType, required this.selectedValue});
+  QuestionFilterUsedEvent(
+      {required this.filterType, required this.selectedValue});
 
   @override
   final String eventName = 'question_filter_used';
@@ -573,4 +585,3 @@ class LegacyEvent extends AppAnalyticsEvent {
     };
   }
 }
-

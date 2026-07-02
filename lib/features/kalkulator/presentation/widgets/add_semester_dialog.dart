@@ -190,10 +190,20 @@ class _AddSemesterDialogState extends State<AddSemesterDialog> {
               isForAutoFill: true,
               onTap: () {
                 widget.onPressed(_selectedSemester);
+                
+                final isBulk = _selectedSemester.length > 1;
+                final batchSize = _selectedSemester.length;
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
+                final randomNum = Random().nextInt(99999); 
+                final batchId = '${timestamp}_$randomNum';
+
                 for (final semester in _selectedSemester) {
                   MixpanelService.track(
                     CalculatorSemesterAddedEvent(
                       semesterName: semester,
+                      isBulk: isBulk,
+                      batchId: batchId,
+                      batchSize: batchSize,
                     ),
                   );
                 }
