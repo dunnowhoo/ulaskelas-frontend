@@ -194,8 +194,8 @@ class _AddSemesterDialogState extends State<AddSemesterDialog> {
                 final isBulk = _selectedSemester.length > 1;
                 final batchSize = _selectedSemester.length;
                 final timestamp = DateTime.now().millisecondsSinceEpoch;
-                final randomNum = Random().nextInt(99999); 
-                final batchId = '${timestamp}_$randomNum';
+                final randomNumber = Random().nextInt(99999); 
+                final batchId = '${timestamp}_$randomNumber';
 
                 for (final semester in _selectedSemester) {
                   MixpanelService.track(
