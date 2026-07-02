@@ -98,16 +98,8 @@ class _MainPageState extends BaseStateful<MainPage> {
         return NewRistekBotNavBar(
           initialActiveIndex: _selectedIndex,
           onTap: (int index) {
-            switch (index) {
-              case 1:
-                MixpanelService.track(LegacyEvent('open_courses'));
-              case 2:
-                MixpanelService.track(LegacyEvent('open_askfriends'));
-              case 3:
-                MixpanelService.track(LegacyEvent('open_calculator'));
-              case 4:
-                MixpanelService.track(LegacyEvent('open_profile'));
-            }
+            FirstFeatureTracker.tryTrackFeature(index);
+            _trackBottomNavigationTap(index);
             setState(() => _selectedIndex = index);
           },
           items: const [
@@ -139,6 +131,23 @@ class _MainPageState extends BaseStateful<MainPage> {
         );
       },
     );
+  }
+
+  void _trackBottomNavigationTap(int index) {
+    switch (index) {
+      case 1:
+        MixpanelService.track(LegacyEvent('open_courses'));
+        break;
+      case 2:
+        MixpanelService.track(LegacyEvent('open_askfriends'));
+        break;
+      case 3:
+        MixpanelService.track(LegacyEvent('open_calculator'));
+        break;
+      case 4:
+        MixpanelService.track(LegacyEvent('open_profile'));
+        break;
+    }
   }
 
   DateTime? preBackPress;
