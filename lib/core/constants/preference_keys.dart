@@ -5,6 +5,11 @@ part of '_constants.dart';
 class PreferencesKeys {
   static const onBoard = 'PrefKey onBoard';
   static const ulasKelasCred = 'PrefKey ulasKelasCred';
+  static const firstFeatureUsedTracked = 'PrefKey firstFeatureUsedTracked';
+  static const firstFeaturePendingOnboardingStatus =
+      'PrefKey firstFeaturePendingOnboardingStatus';
+  static const firstFeatureEligibleFeatures =
+      'PrefKey firstFeatureEligibleFeatures';
 
   static const removableKeys = [
     ulasKelasCred,

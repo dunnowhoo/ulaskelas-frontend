@@ -38,6 +38,8 @@ class Config {
       await HiveDataBaseService.init();
     }
     await Pref.init();
+    await FirstFeatureTracker
+        .migrateExistingUsersForMixpanel(); 
     await MixpanelService.init();
 
     // TODO(fauzi): Implement notification plugin

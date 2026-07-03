@@ -102,6 +102,32 @@ class OnboardingSkippedEvent extends AppAnalyticsEvent {
       };
 }
 
+enum FirstFeature { matkul, tanyateman, kalkulator }
+
+class FirstFeatureUsedEvent extends AppAnalyticsEvent {
+  final FirstFeature firstFeature;
+  final String onboardingStatus;
+
+  FirstFeatureUsedEvent({
+    required this.firstFeature,
+    required this.onboardingStatus,
+  });
+
+  @override
+  final String eventName = 'first_feature_used';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'computed',
+        'eventCategory': 'onboarding',
+        'fieldName': 'first_feature: ${firstFeature.name}',
+        'fieldValue': 'onboarding_status: $onboardingStatus',
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::first-feature-used',
+      };
+}
+
 class CalculatorOpenedEvent extends AppAnalyticsEvent {
   @override
   final String eventName = 'calculator_opened';

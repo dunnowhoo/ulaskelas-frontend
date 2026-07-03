@@ -95,6 +95,10 @@ void trackRubyOnboardingSkipped() {
       stepSkipped: rubyOnboardingCurrentStepNumber,
     ),
   );
+  FirstFeatureTracker.onOnboardingEnded(
+    status: 'skipped',
+    skipStepNumber: rubyOnboardingCurrentStepNumber,
+  );
 }
 
 Future<void> showInAppTourOpening(BuildContext ctx, {bool back = false}) async {
@@ -706,6 +710,9 @@ Future<void> showInAppTourClosing(BuildContext ctx) async {
                                         OnboardingCompletedEvent(
                                           totalSteps: rubyOnboardingTotalSteps,
                                         ),
+                                      );
+                                      await FirstFeatureTracker.onOnboardingEnded(
+                                        status: 'completed',
                                       );
                                       await Pref.saveBool(
                                         'doneAppTour',
