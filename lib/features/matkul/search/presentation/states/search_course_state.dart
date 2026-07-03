@@ -161,12 +161,16 @@ class SearchCourseState
     if (history.length == 11) {
       _history?.removeLast();
     }
-    MixpanelService.track(LegacyEvent(
-      'search_course',
-      params: {
-        'query': query,
-      },
-    ));
+    // not used, tracking has moved to search_course_page.dart
+    // tracking here relies on the user pressing submit, which is not
+    // neccessarily needed to search for courses.
+
+    // MixpanelService.track(LegacyEvent(
+    //   'search_course',
+    //   params: {
+    //     'query': query,
+    //   },
+    // ));
     // TODO(pawpaw): save to local storage
   }
 

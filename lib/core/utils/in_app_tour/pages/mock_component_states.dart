@@ -25,6 +25,22 @@ class MockComponentState {
     return _components?.isNotEmpty ?? false;
   }
 
+  void resetForShowcase() {
+    _components = [];
+    hasReachedMax = false;
+    canGiveRecom = false;
+    canPass = true;
+    allScoreFilled = false;
+    componentChange = false;
+    totalScore = 0;
+    totalWeight = 0;
+    recommendedScore = 85;
+    maxPossibleScore = 100;
+    target = 85;
+    firstComponentFilled = false;
+    secondComponentFilled = false;
+  }
+
   Future<void> retrieveData(QueryComponent query) async {
     _components ??= [];
 

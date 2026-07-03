@@ -10,12 +10,34 @@ class UserRegisteredEvent extends AppAnalyticsEvent {
   @override
   Map<String, dynamic> toMap() => {
         'eventName': eventName,
-        'eventAction': 'register',
-        'eventCategory': 'auth',
-        'fieldName': 'method: SSO',
-        'screenName': 'Beranda',
+        'eventAction': 'registered',
+        'eventCategory': 'authentication',
+        'screenName': 'SSO Web Page',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::user-registered',
+      };
+}
+
+class FacultyExpansionSignupEvent extends AppAnalyticsEvent {
+  final String facultyName;
+  final bool isFasilkom;
+
+  FacultyExpansionSignupEvent({
+    required this.facultyName,
+    required this.isFasilkom,
+  });
+
+  @override
+  final String eventName = 'faculty_expansion_signup';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'computed',
+        'eventCategory': 'acquisition',
+        'fieldName': 'fakultas: $facultyName, is_fasilkom: $isFasilkom',
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::faculty-expansion-signup',
       };
 }
 
@@ -73,10 +95,36 @@ class OnboardingSkippedEvent extends AppAnalyticsEvent {
         'eventName': eventName,
         'eventAction': 'skip',
         'eventCategory': 'onboarding',
-        'fieldName': 'step_skipped: $stepSkipped',
+        'fieldName': 'skipped_at_step: $stepSkipped',
         'screenName': 'Beranda',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::onboarding-skipped',
+      };
+}
+
+enum FirstFeature { matkul, tanyateman, kalkulator }
+
+class FirstFeatureUsedEvent extends AppAnalyticsEvent {
+  final FirstFeature firstFeature;
+  final String onboardingStatus;
+
+  FirstFeatureUsedEvent({
+    required this.firstFeature,
+    required this.onboardingStatus,
+  });
+
+  @override
+  final String eventName = 'first_feature_used';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'computed',
+        'eventCategory': 'onboarding',
+        'fieldName': 'first_feature: ${firstFeature.name}',
+        'fieldValue': 'onboarding_status: $onboardingStatus',
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::first-feature-used',
       };
 }
 
@@ -232,7 +280,7 @@ class CourseDetailViewedEvent extends AppAnalyticsEvent {
 class ReviewSubmittedEvent extends AppAnalyticsEvent {
   final String matkulId;
   final String periode;
-  final int rating;
+  final double rating;
   final bool hasTag;
 
   ReviewSubmittedEvent({
@@ -316,10 +364,10 @@ class AutofillUsedEvent extends AppAnalyticsEvent {
 }
 
 class FilterUsedEvent extends AppAnalyticsEvent {
-  final String filterType; // <jenis_matkul|SKS|semester>
-  final String selectedValue;
+  final List<String> filterTypes; 
+  final List<String> selectedValues;
 
-  FilterUsedEvent({required this.filterType, required this.selectedValue});
+  FilterUsedEvent({required this.filterTypes, required this.selectedValues});
 
   @override
   final String eventName = 'filter_used';
@@ -329,8 +377,8 @@ class FilterUsedEvent extends AppAnalyticsEvent {
         'eventName': eventName,
         'eventAction': 'apply',
         'eventCategory': 'discovery',
-        'fieldName': 'filter_type: $filterType',
-        'fieldValue': 'selected_value: $selectedValue',
+        'fieldName': 'filter_type: ${filterTypes.join(' | ')}',
+        'fieldValue': 'selected_value: ${selectedValues.join(' | ')}',
         'screenName': 'Daftar Mata Kuliah',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::filter-used',
@@ -565,6 +613,26 @@ class OnboardingReplayedEvent extends AppAnalyticsEvent {
         'screenName': 'Beranda',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::onboarding-replayed',
+      };
+}
+
+class MyReviewViewedEvent extends AppAnalyticsEvent {
+  final String sourceScreen;
+
+  MyReviewViewedEvent({required this.sourceScreen});
+
+  @override
+  final String eventName = 'my_review_viewed';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'tap',
+        'eventCategory': 'profile',
+        'fieldName': 'source: $sourceScreen',
+        'screenName': sourceScreen,
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::my-review-viewed',
       };
 }
 

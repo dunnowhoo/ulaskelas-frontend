@@ -113,6 +113,9 @@ Widget courseCardGCShowcase(
                         onPressed: () async {
                           ShowCaseWidget.of(ctx).dismiss();
                           backFromNavbarProfile = false;
+                          await mockComponentRM.setState(
+                            (s) => s.resetForShowcase(),
+                          );
                           backToMatkulCalcPage = () => nav.push<void>(
                                 MockCalculatorComponentPage(
                                   givenSemester: givenSemester,
@@ -126,9 +129,6 @@ Widget courseCardGCShowcase(
                                 RouteName.calculatorComponent,
                               );
                           backToMatkulCalcPage();
-                          await mockComponentRM.setState(
-                            (s) => s.components.clear(),
-                          );
                         },
                       ),
                       const WidthSpace(5),

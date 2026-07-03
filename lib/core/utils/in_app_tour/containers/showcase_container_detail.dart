@@ -109,6 +109,9 @@ Widget detailCourseDMShowCase(
                                 textAlign: TextAlign.center,
                               ),
                               onPressed: () async {
+                                setRubyOnboardingStep(
+                                  RubyTourStep.reviewBySelf,
+                                );
                                 ShowCaseWidget.of(ctx).next();
                                 isScrollable(false);
                                 await controller.animateTo(
@@ -256,6 +259,7 @@ Widget reviewByYouDMShowcase(
                                 textAlign: TextAlign.center,
                               ),
                               onPressed: () async {
+                                setRubyOnboardingStep(RubyTourStep.reviews);
                                 ShowCaseWidget.of(ctx).next();
                                 isScrollable(false);
                                 await controller.animateTo(
@@ -404,6 +408,9 @@ Widget reviewsDMShowcase(
                                 textAlign: TextAlign.center,
                               ),
                               onPressed: () async {
+                                setRubyOnboardingStep(
+                                  RubyTourStep.navbarTanyaTeman,
+                                );
                                 ShowCaseWidget.of(ctx).next();
                                 isScrollable(true);
                                 nav.pop();

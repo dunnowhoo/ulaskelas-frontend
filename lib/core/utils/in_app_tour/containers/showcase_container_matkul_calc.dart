@@ -94,6 +94,7 @@ Widget totalComponentGCShowcase(BuildContext ctx) {
                   textAlign: TextAlign.center,
                 ),
                 onPressed: () async {
+                  setRubyOnboardingStep(RubyTourStep.addComponent);
                   ShowCaseWidget.of(ctx).next();
                 },
               ),

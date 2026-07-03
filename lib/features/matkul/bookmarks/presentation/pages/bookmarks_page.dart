@@ -12,6 +12,8 @@ class BookmarksPage extends StatefulWidget {
 }
 
 class _BookmarksPageState extends BaseStateful<BookmarksPage> {
+  bool _hasTrackedView = false;
+
   @override
   void init() {
     StateInitializer(
@@ -48,6 +50,12 @@ class _BookmarksPageState extends BaseStateful<BookmarksPage> {
           onWaiting: WaitingView.new,
           onError: (dynamic error, refresh) => const Text('error'),
           onData: (data) {
+            if (!_hasTrackedView) {
+              _hasTrackedView = true;
+              MixpanelService.track(
+                SavedCoursesViewedEvent(savedCount: data.bookmarks.length),
+              );
+            }
             final bookmarks = data.bookmarks;
             if (bookmarks.isEmpty) {
               return Padding(

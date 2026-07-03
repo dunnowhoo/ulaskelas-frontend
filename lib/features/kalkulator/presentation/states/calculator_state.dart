@@ -30,22 +30,7 @@ class CalculatorState {
       _calculators = result.data;
       print(_calculators);
 
-      // For Showcase
-      if (Pref.getBool('doneAppTour') == false ||
-          Pref.getBool('doneAppTour') == null) {
-        _calculators?.insert(
-          0,
-          CalculatorModel(
-            givenSemester: givenSemester,
-            id: 999999,
-            user: profileRM.state.profile.username ?? 'john.doe',
-            courseId: 33,
-            courseName: 'Kalkulus 2',
-            totalScore: 0,
-            totalPercentage: 0,
-          ),
-        );
-      }
+      _insertShowcaseCalculator(givenSemester);
     });
     calculatorRM.notify();
   }
@@ -185,5 +170,30 @@ class CalculatorState {
       }
     }
     return buffer.toString();
+  }
+
+  bool get _shouldShowAppTour =>
+      Pref.getBool('doneAppTour') == false ||
+      Pref.getBool('doneAppTour') == null;
+
+  void _insertShowcaseCalculator(String givenSemester) {
+    if (!_shouldShowAppTour) {
+      return;
+    }
+
+    _calculators?.insert(
+      0,
+      CalculatorModel(
+        givenSemester: givenSemester,
+        id: 999999,
+        user: profileRM.state.profile.username ?? 'john.doe',
+        courseId: 33,
+        courseName: 'Kalkulus 2',
+        totalScore: 0,
+        totalPercentage: 0,
+        shortName: 'K2',
+        courseSKS: 3,
+      ),
+    );
   }
 }

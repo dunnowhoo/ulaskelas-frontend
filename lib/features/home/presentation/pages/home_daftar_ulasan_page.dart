@@ -12,6 +12,7 @@ class HomeDaftarUlasanPage extends StatefulWidget {
 class _HomeDaftarUlasanPageState extends BaseStateful<HomeDaftarUlasanPage> {
   late ScrollController scrollController;
   late Completer<void> completer;
+  bool _hasTrackedView = false;
 
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
@@ -42,6 +43,12 @@ class _HomeDaftarUlasanPageState extends BaseStateful<HomeDaftarUlasanPage> {
         onWaiting: WaitingView.new,
         onError: (dynamic error, refresh) => Text(error.toString()),
         onData: (data) {
+          if (!_hasTrackedView) {
+            _hasTrackedView = true;
+            MixpanelService.track(
+              ReviewHistoryViewedEvent(reviewCount: data.reviewHistories.length),
+            );
+          }
           if (data.reviewHistories.isEmpty) {
             return const Center(
               child: SingleChildScrollView(
@@ -75,7 +82,9 @@ class _HomeDaftarUlasanPageState extends BaseStateful<HomeDaftarUlasanPage> {
                     review.course!,
                     review.courseCode!,
                   );
-                  MixpanelService.track(LegacyEvent('view_my_review'));
+                  MixpanelService.track(
+                    MyReviewViewedEvent(sourceScreen: 'Riwayat Ulasanmu'),
+                  );
                 },
               );
             },

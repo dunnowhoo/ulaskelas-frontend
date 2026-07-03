@@ -153,6 +153,9 @@ class _SemesterPageState extends BaseStateful<SemesterPage> {
                               targetBorderRadius: BorderRadius.circular(10),
                               onTargetClick: () async {
                                 ShowCaseWidget.of(context).dismiss();
+                                await mockComponentRM.setState(
+                                  (s) => s.resetForShowcase(),
+                                );
                                 backToMatkulCalcPage = () => nav.push(
                                       MockCalculatorComponentPage(
                                         givenSemester: widget.givenSemester!,
@@ -176,19 +179,24 @@ class _SemesterPageState extends BaseStateful<SemesterPage> {
                               child: CardCalculator(
                                 model: calculator,
                                 givenSemester: widget.givenSemester!,
-                                onTap: () => nav.push<void>(
-                                  MockCalculatorComponentPage(
-                                    givenSemester: widget.givenSemester!,
-                                    courseId: calculator.courseId!,
-                                    calculatorId: calculator.id!,
-                                    courseName: calculator.courseName!,
-                                    totalScore: calculator.totalScore!,
-                                    totalPercentage:
-                                        calculator.totalPercentage!,
-                                    courseSKS: calculator.courseSKS!,
-                                  ),
-                                  RouteName.calculatorComponent,
-                                ),
+                                onTap: () async {
+                                  await mockComponentRM.setState(
+                                    (s) => s.resetForShowcase(),
+                                  );
+                                  nav.push<void>(
+                                    MockCalculatorComponentPage(
+                                      givenSemester: widget.givenSemester!,
+                                      courseId: calculator.courseId!,
+                                      calculatorId: calculator.id!,
+                                      courseName: calculator.courseName!,
+                                      totalScore: calculator.totalScore!,
+                                      totalPercentage:
+                                          calculator.totalPercentage!,
+                                      courseSKS: calculator.courseSKS!,
+                                    ),
+                                    RouteName.calculatorComponent,
+                                  );
+                                },
                               ),
                             );
                           }

@@ -23,6 +23,7 @@ class DetailMatkulPage extends StatefulWidget {
 class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
   late ScrollController scrollController;
   Completer<void>? completer;
+  bool _hasTrackedView = false;
 
   bool scrollable = !(Pref.getBool('doneAppTour') == false ||
       Pref.getBool('doneAppTour') == null);
@@ -129,6 +130,15 @@ class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
                   onError: (dynamic error, refresh) => const Text('error'),
                   onData: (data) {
                     final course = data.detailCourse;
+                    if (!_hasTrackedView) {
+                      MixpanelService.track(
+                        CourseDetailViewedEvent(
+                          matkulId: course.id.toString(),
+                          matkulName: course.name ?? 'Unknown',
+                        ),
+                      );
+                      _hasTrackedView = true;
+                    }
                     return ListView(
                       shrinkWrap: true,
                       controller: scrollController,
@@ -236,6 +246,10 @@ class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
   }
 
   Widget _buildReviews(CourseModel course) {
+    final isInAppTour =
+        Pref.getBool('doneAppTour') == false ||
+        Pref.getBool('doneAppTour') == null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -268,14 +282,22 @@ class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
               const HeightSpace(12),
               _buildAllRatings(course),
               const HeightSpace(12),
-              if (Pref.getBool('doneAppTour') == false ||
-                  Pref.getBool('doneAppTour') == null)
+              if (isInAppTour)
                 ReviewCard(
-                  review: ReviewModel.fromJson(dummyReview),
+                  review: ReviewModel.fromJson(dummyReviews.first),
                 ),
             ],
           ),
         ),
+        if (isInAppTour)
+          ...dummyReviews.skip(1).map(
+                (review) => Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: ReviewCard(
+                    review: ReviewModel.fromJson(review),
+                  ),
+                ),
+              ),
         OnBuilder<ReviewCourseState>.all(
           listenTo: reviewCourseRM,
           onIdle: () => const CircleLoading(),
@@ -283,6 +305,10 @@ class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
           onError: (dynamic error, refresh) => Text(error.toString()),
           onData: (data) {
             if (data.reviews.isEmpty) {
+              if (isInAppTour) {
+                return const SizedBox.shrink();
+              }
+
               return Text(
                 'Belum ada Ulasan',
                 style: FontTheme.poppins12w500black(),

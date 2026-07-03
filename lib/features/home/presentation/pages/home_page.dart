@@ -90,6 +90,7 @@ class _HomePageState extends BaseStateful<HomePage> {
                 }
                 return AppTourCard(
                   onTap: () {
+                    MixpanelService.track(OnboardingReplayedEvent());
                     Pref.saveBool('doneAppTour', value: false);
                     showInAppTourOpening(context);
                   },
@@ -281,7 +282,9 @@ class _HomePageState extends BaseStateful<HomePage> {
                           review.courseCode.toString(),
                         );
 
-                        MixpanelService.track(LegacyEvent('view_my_review'));
+                        MixpanelService.track(
+                          MyReviewViewedEvent(sourceScreen: 'Beranda'),
+                        );
                       },
                     );
                   },

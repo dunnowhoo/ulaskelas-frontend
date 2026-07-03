@@ -28,6 +28,13 @@ class TitleAndBookMark extends StatelessWidget {
               child: OnReactive(() {
                 return GestureDetector(
                   onTap: () {
+                    // store if course is currently bookmarked or not
+                    // to prevent "bookmarked" tracking when user is actually
+                    // un-bookmarking a course
+                    final isCurrentlyBookmarked = bookmarkRM.state.isMarked(
+                      course,
+                    );
+
                     final bookmark = BookmarkModel(
                       courseId: course.id,
                       courseCode: course.code,
@@ -37,7 +44,15 @@ class TitleAndBookMark extends StatelessWidget {
                       shortName: course.shortName,
                     );
                     bookmarkRM.setState((s) => s.toggleBookmark(bookmark));
-                    MixpanelService.track(LegacyEvent('bookmark_course'));
+
+                    if (!isCurrentlyBookmarked) {
+                      MixpanelService.track(
+                        CourseBookmarkedEvent(
+                          matkulId: course.id.toString(),
+                          matkulName: course.name ?? 'Unknown',
+                        ),
+                      );
+                    }
                   },
                   child: Icon(
                     Icons.bookmark,

@@ -180,6 +180,11 @@ class _SearchCoursePageState
       return;
     });
     _debounce = Timer(const Duration(milliseconds: 1000), () {
+      if (val.trim().isNotEmpty) {
+        MixpanelService.track(
+          SearchUsedEvent(query: val.trim()),
+        );
+      }
       final query = QuerySearchCourse(name: val);
       // final query = QuerySearchCourse();
       searchCourseRM.setState((s) {
