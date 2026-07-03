@@ -44,7 +44,8 @@ class BookmarkState {
 
   /// tap to toggle Bookmark
   Future<void> toggleBookmark(BookmarkModel bookmark) async {
-    MixpanelService.track(LegacyEvent('bookmark_course'));
+    // tracking has moved to title_and_bookmark.dart
+    // MixpanelService.track(LegacyEvent('bookmark_course'));
     final resp = await _repo.getAllBookmark(QueryBookmark());
     resp.fold((failure) {
       throw failure;

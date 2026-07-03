@@ -243,7 +243,7 @@ class CourseDetailViewedEvent extends AppAnalyticsEvent {
 class ReviewSubmittedEvent extends AppAnalyticsEvent {
   final String matkulId;
   final String periode;
-  final int rating;
+  final double rating;
   final bool hasTag;
 
   ReviewSubmittedEvent({
@@ -327,10 +327,10 @@ class AutofillUsedEvent extends AppAnalyticsEvent {
 }
 
 class FilterUsedEvent extends AppAnalyticsEvent {
-  final String filterType; // <jenis_matkul|SKS|semester>
-  final String selectedValue;
+  final List<String> filterTypes; 
+  final List<String> selectedValues;
 
-  FilterUsedEvent({required this.filterType, required this.selectedValue});
+  FilterUsedEvent({required this.filterTypes, required this.selectedValues});
 
   @override
   final String eventName = 'filter_used';
@@ -340,8 +340,8 @@ class FilterUsedEvent extends AppAnalyticsEvent {
         'eventName': eventName,
         'eventAction': 'apply',
         'eventCategory': 'discovery',
-        'fieldName': 'filter_type: $filterType',
-        'fieldValue': 'selected_value: $selectedValue',
+        'fieldName': 'filter_type: ${filterTypes.join(' | ')}',
+        'fieldValue': 'selected_value: ${selectedValues.join(' | ')}',
         'screenName': 'Daftar Mata Kuliah',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::filter-used',
@@ -575,6 +575,26 @@ class OnboardingReplayedEvent extends AppAnalyticsEvent {
         'screenName': 'Beranda',
         'screenOwner': 'mobile_app',
         'eventLabel': 'temankuliah::onboarding-replayed',
+      };
+}
+
+class MyReviewViewedEvent extends AppAnalyticsEvent {
+  final String sourceScreen;
+
+  MyReviewViewedEvent({required this.sourceScreen});
+
+  @override
+  final String eventName = 'my_review_viewed';
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'eventName': eventName,
+        'eventAction': 'tap',
+        'eventCategory': 'profile',
+        'fieldName': 'source: $sourceScreen',
+        'screenName': sourceScreen,
+        'screenOwner': 'mobile_app',
+        'eventLabel': 'temankuliah::my-review-viewed',
       };
 }
 
