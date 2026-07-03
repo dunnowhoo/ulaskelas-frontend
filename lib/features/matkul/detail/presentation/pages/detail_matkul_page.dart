@@ -23,6 +23,7 @@ class DetailMatkulPage extends StatefulWidget {
 class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
   late ScrollController scrollController;
   Completer<void>? completer;
+  bool _hasTrackedView = false;
 
   bool scrollable = !(Pref.getBool('doneAppTour') == false ||
       Pref.getBool('doneAppTour') == null);
@@ -129,6 +130,15 @@ class _DetailMatkulPageState extends BaseStateful<DetailMatkulPage> {
                   onError: (dynamic error, refresh) => const Text('error'),
                   onData: (data) {
                     final course = data.detailCourse;
+                    if (!_hasTrackedView) {
+                      MixpanelService.track(
+                        CourseDetailViewedEvent(
+                          matkulId: course.id.toString(),
+                          matkulName: course.name ?? 'Unknown',
+                        ),
+                      );
+                      _hasTrackedView = true;
+                    }
                     return ListView(
                       shrinkWrap: true,
                       controller: scrollController,

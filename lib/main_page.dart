@@ -31,7 +31,7 @@ class _MainPageState extends BaseStateful<MainPage> {
       HomePage(
         onSeeAllCourse: () {
           setState(() => _selectedIndex = 1);
-          MixpanelService.track(LegacyEvent('view_all_courses'));
+          MixpanelService.track(CourseListViewedEvent());
         },
       ),
       const SearchCoursePage(),
