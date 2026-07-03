@@ -346,6 +346,7 @@ class _CalculatorPageState extends BaseStateful<CalculatorPage> {
                     onPressed: () => {
                       print('Button Auto-Fill are Pressed!'),
                       showAutoFillSemesterDialog(context),
+                      MixpanelService.track(AutofillUsedEvent()),
                     }, // To Be Implemented
                   ),
                   const HeightSpace(5),

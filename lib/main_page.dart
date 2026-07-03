@@ -136,13 +136,13 @@ class _MainPageState extends BaseStateful<MainPage> {
   void _trackBottomNavigationTap(int index) {
     switch (index) {
       case 1:
-        MixpanelService.track(LegacyEvent('open_courses'));
+        MixpanelService.track(CourseListViewedEvent());
         break;
       case 2:
-        MixpanelService.track(LegacyEvent('open_askfriends'));
+        MixpanelService.track(TanyaTemanViewedEvent());
         break;
       case 3:
-        MixpanelService.track(LegacyEvent('open_calculator'));
+        MixpanelService.track(CalculatorOpenedEvent());
         break;
       case 4:
         MixpanelService.track(LegacyEvent('open_profile'));

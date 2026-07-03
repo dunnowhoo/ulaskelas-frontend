@@ -140,6 +140,12 @@ class _AddQuestionPageState extends BaseStateful<AddQuestionPage> {
         nav.pop();
 
         if (isSucces) {
+          MixpanelService.track(
+            QuestionPostedEvent(
+              hasMatkulTag: !questionFormRM.state.isCourseEmpty,
+            ),
+          );
+          
           final historyFilter = questionsRM.state.historyQuestionsFilter;
           await questionsRM.setState(
             (s) => s.retrieveData(

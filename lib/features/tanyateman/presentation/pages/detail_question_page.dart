@@ -465,6 +465,12 @@ class _DetailQuestionPageState extends BaseStateful<DetailQuestionPage> {
               await answerFormRM.state.postNewAnswer(widget.model.id);
 
           if (isSucces) {
+            MixpanelService.track(
+              AnswerPostedEvent(
+                questionId: widget.model.id.toString(),
+              ),
+            );
+
             SuccessMessenger('Jawaban berhasil dibuat').show(ctx!);
             await _pageController.animateToPage(
               0,

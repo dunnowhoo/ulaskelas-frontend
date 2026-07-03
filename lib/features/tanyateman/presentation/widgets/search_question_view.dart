@@ -353,6 +353,14 @@ class _SearchQuestionViewState extends BaseStateful<SearchQuestionView> {
             searchQuestionRM.setState(
               (s) => s.searchQuestionFilter = value.toString(),
             );
+
+            MixpanelService.track(
+              QuestionFilterUsedEvent(
+                filterType: 'kategori',
+                selectedValue: value.toString(),
+              ),
+            );
+
             retrieveData();
           }
           if (kDebugMode) print('filter: $value');

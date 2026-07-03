@@ -188,7 +188,26 @@ class _AddSemesterDialogState extends State<AddSemesterDialog> {
             ),
             SimpanButton(
               isForAutoFill: true,
-              onTap: () => widget.onPressed(_selectedSemester),
+              onTap: () {
+                widget.onPressed(_selectedSemester);
+                
+                final isBulk = _selectedSemester.length > 1;
+                final batchSize = _selectedSemester.length;
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
+                final randomNumber = Random().nextInt(99999); 
+                final batchId = '${timestamp}_$randomNumber';
+
+                for (final semester in _selectedSemester) {
+                  MixpanelService.track(
+                    CalculatorSemesterAddedEvent(
+                      semesterName: semester,
+                      isBulk: isBulk,
+                      batchId: batchId,
+                      batchSize: batchSize,
+                    ),
+                  );
+                }
+              },
               text: 'Tambah Semester',
             ),
           ],

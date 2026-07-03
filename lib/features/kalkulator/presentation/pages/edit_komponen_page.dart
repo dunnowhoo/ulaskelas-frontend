@@ -183,6 +183,21 @@ class _EditComponentPageState extends BaseStateful<EditComponentPage> {
       final averageScore = componentFormRM.state.averageScore() ?? 0;
       final weight = componentFormRM.state.formData.weight!;
 
+      final calculatedGrade = _temporaryUpdateScore(
+        averageScore < 0 ? 0 : averageScore,
+        weight,
+      );
+
+      if (calculatedGrade > 0) {
+        MixpanelService.track(
+          CalculatorCompletedEvent(
+            semesterName: widget.givenSemester,
+            matkulName: widget.courseName,
+            calculatedGrade: calculatedGrade,
+          ),
+        );
+      }
+
       componentFormRM.state.cleanForm();
       if (kDebugMode) {
         print('Hapus Komponen');
@@ -194,10 +209,7 @@ class _EditComponentPageState extends BaseStateful<EditComponentPage> {
         calculatorId: widget.calculatorId,
         courseName: widget.courseName,
         courseSKS: widget.courseSKS,
-        totalScore: _temporaryUpdateScore(
-          averageScore < 0 ? 0 : averageScore,
-          weight,
-        ),
+        totalScore: calculatedGrade,
         totalPercentage: _temporaryUpdateWeight(
           weight,
         ),
@@ -473,6 +485,13 @@ class _EditComponentPageState extends BaseStateful<EditComponentPage> {
   Future<bool> onBackPressed() async {
     componentFormRM.state.previousFrequency = '1';
     componentFormRM.state.cleanForm();
+
+    if (widget.totalScore == 0) {
+      MixpanelService.track(
+        CalculatorDroppedEvent(lastScreen: 'Edit Komponen'),
+      );
+    }
+
     nav.pop<void>();
     return true;
   }
